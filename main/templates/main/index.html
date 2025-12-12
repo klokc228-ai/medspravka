@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Медсправка для водительского удостоверения — запись и сопровождение</title>
+  <meta name="description" content="Запись и сопровождение прохождения медкомиссии для водительского удостоверения. Быстро, удобно, официально. Дополнительно: справки для работы, спорта, учебы и бассейна." />
+  <meta name="keywords" content="медсправка, медкомиссия водитель, справка для водительского удостоверения, психиатр, нарколог, справка на работу, справка в бассейн" />
+
+  <style>
+    :root{
+      --bg: #f5fbff;
+      --card: #ffffff;
+      --text: #0b1b2a;
+      --muted: #5c6f82;
+      --line: rgba(15, 67, 120, .12);
+      --blue-1: #0ea5ff;
+      --blue-2: #2563eb;
+      --blue-3: #0b4aa2;
+      --shadow: 0 14px 40px rgba(12, 60, 120, .12);
+      --shadow-soft: 0 10px 28px rgba(12, 60, 120, .10);
+      --r: 18px;
+      --max: 1120px;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 15% -10%, rgba(14,165,255,.22), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(37,99,235,.18), transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 45%, #ffffff 100%);
+      line-height: 1.5;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .wrap{ width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+
+    /* Top bar */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,.75);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 14px;
+    }
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    .logo{
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(14,165,255,.95), rgba(37,99,235,.95));
+      box-shadow: 0 10px 20px rgba(37,99,235,.22);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+    .logo svg{ width: 22px; height: 22px; }
+    .brand small{
+      display: block;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0;
+      margin-top: 2px;
+    }
+
+    .menu{
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: #16324a;
+      font-weight: 650;
+    }
+    .menu a{
+      padding: 10px 10px;
+      border-radius: 12px;
+      transition: .2s ease;
+    }
+    .menu a:hover{ background: rgba(14,165,255,.08); }
+
+    .actions{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn{
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #10314f;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .12s ease, box-shadow .18s ease, background .18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+    .btn-primary{
+      border: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue-1), var(--blue-2));
+      box-shadow: 0 16px 34px rgba(37,99,235,.25);
+    }
+    .btn-primary:hover{ box-shadow: 0 20px 42px rgba(37,99,235,.28); }
+    .btn svg{ width: 18px; height: 18px; }
+
+    /* Hero */
+    .hero{
+      padding: 36px 0 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid{
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 26px;
+      align-items: stretch;
+      padding: 24px 0 30px;
+    }
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.7);
+      color: #123a5b;
+      font-weight: 700;
+      width: fit-content;
+    }
+    .badge i{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue-1), var(--blue-2));
+      display: inline-block;
+      box-shadow: 0 0 0 5px rgba(14,165,255,.12);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(30px, 3.6vw, 48px);
+      line-height: 1.08;
+      letter-spacing: -0.6px;
+    }
+    .lead{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 58ch;
+    }
+    .hero-cta{
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 16px;
+    }
+    .mini{
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+    .mini span{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px dashed rgba(15, 67, 120, .18);
+      border-radius: 14px;
+      background: rgba(255,255,255,.55);
+    }
+    .mini svg{ width: 18px; height: 18px; color: var(--blue-2); }
+
+    /* Hero card */
+    .hero-card{
+      background: rgba(255,255,255,.8);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute;
+      inset: -80px -120px auto auto;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle at 30% 30%, rgba(14,165,255,.35), transparent 60%);
+      transform: rotate(18deg);
+    }
+    .hero-card h3{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.2px;
+    }
+    .form{
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .field{
+      display: grid;
+      gap: 6px;
+    }
+    label{
+      font-size: 13px;
+      color: #274861;
+      font-weight: 750;
+    }
+    input, select, textarea{
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(15, 67, 120, .18);
+      background: rgba(255,255,255,.95);
+      outline: none;
+      font-size: 14px;
+      color: var(--text);
+      transition: box-shadow .18s ease, border-color .18s ease;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(14,165,255,.55);
+      box-shadow: 0 0 0 6px rgba(14,165,255,.12);
+    }
+    .row{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .help{
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    /* Sections */
+    section{ padding: 56px 0; }
+    .section-head{
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    h2{
+      margin: 0;
+      font-size: clamp(22px, 2.2vw, 30px);
+      letter-spacing: -0.3px;
+    }
+    .sub{
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      grid-column: span 4;
+      background: rgba(255,255,255,.82);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 16px;
+      box-shadow: 0 12px 30px rgba(12, 60, 120, .08);
+      transition: transform .12s ease, box-shadow .18s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 44px rgba(12, 60, 120, .12);
+    }
+    .ico{
+      width: 44px; height: 44px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(14,165,255,.16), rgba(37,99,235,.12));
+      border: 1px solid rgba(14,165,255,.22);
+      display: grid;
+      place-items: center;
+      margin-bottom: 10px;
+      color: var(--blue-3);
+    }
+    .ico svg{ width: 22px; height: 22px; }
+    .card h3{ margin: 0 0 6px; font-size: 16px; letter-spacing: -0.2px; }
+    .card p{ margin: 0; color: var(--muted); font-size: 14px; }
+
+    /* How it works */
+    .steps{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .step{
+      background: rgba(255,255,255,.82);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .num{
+      width: 34px; height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue-1), var(--blue-2));
+      color: #fff;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 14px 30px rgba(37,99,235,.24);
+      margin-bottom: 10px;
+    }
+    .step h4{ margin: 0 0 6px; font-size: 16px; }
+    .step p{ margin: 0; color: var(--muted); font-size: 14px; }
+
+    /* Pricing */
+    .pricing{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .price{
+      background: rgba(255,255,255,.85);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(12, 60, 120, .08);
+      position: relative;
+      overflow: hidden;
+    }
+    .price.popular{
+      border-color: rgba(14,165,255,.45);
+      box-shadow: 0 18px 44px rgba(37,99,235,.16);
+    }
+    .tag{
+      position: absolute;
+      top: 14px; right: 14px;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(14,165,255,.14);
+      border: 1px solid rgba(14,165,255,.22);
+      color: #0b3f77;
+    }
+    .price h3{ margin: 0 0 6px; font-size: 16px; }
+    .price .desc{ margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+    .list{ margin: 0; padding-left: 18px; color: #23445f; }
+    .list li{ margin: 8px 0; color: var(--muted); }
+    .note{
+      margin-top: 12px;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    /* FAQ */
+    .faq{
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      margin-top: 14px;
+      align-items: start;
+    }
+    details{
+      background: rgba(255,255,255,.85);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 14px;
+      box-shadow: 0 10px 26px rgba(12, 60, 120, .08);
+    }
+    details + details{ margin-top: 10px; }
+    summary{
+      cursor: pointer;
+      font-weight: 850;
+      color: #113556;
+      outline: none;
+    }
+    details p{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .aside{
+      background: linear-gradient(135deg, rgba(14,165,255,.14), rgba(37,99,235,.10));
+      border: 1px solid rgba(14,165,255,.22);
+      border-radius: var(--r);
+      padding: 18px;
+    }
+    .aside h3{ margin: 0 0 8px; }
+    .aside p{ margin: 0 0 12px; color: var(--muted); }
+    .aside .pill{
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(15,67,120,.12);
+      color: #123a5b;
+      font-weight: 800;
+      margin: 6px 6px 0 0;
+    }
+
+    /* Footer */
+    footer{
+      padding: 28px 0 34px;
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,.7);
+    }
+    .foot{
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items: start;
+    }
+    .muted{ color: var(--muted); }
+    .links{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .links a{
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.75);
+      font-weight: 750;
+      color: #16324a;
+    }
+
+    /* Wave */
+    .wave{
+      position: absolute;
+      inset: auto 0 -1px 0;
+      height: 120px;
+      pointer-events: none;
+      opacity: .9;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .menu{ display: none; }
+      .hero-grid{ grid-template-columns: 1fr; }
+      .row{ grid-template-columns: 1fr; }
+      .card{ grid-column: span 6; }
+      .steps{ grid-template-columns: 1fr; }
+      .pricing{ grid-template-columns: 1fr; }
+      .faq{ grid-template-columns: 1fr; }
+      .foot{ grid-template-columns: 1fr; }
+      .links{ justify-content: flex-start; }
+    }
+    @media (max-width: 560px){
+      .wrap{ width: calc(100% - 26px); }
+      .card{ grid-column: span 12; }
+
+    /* Telegram card */
+.tg-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tg-desc {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.tg-box {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(14,165,255,.08);
+  border: 1px solid rgba(14,165,255,.25);
+}
+
+.tg-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tg-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #274861;
+}
+
+.tg-link {
+  font-weight: 800;
+  color: #0b4aa2;
+  text-decoration: none;
+}
+
+.tg-link:hover {
+  text-decoration: underline;
+}
+
+.tg-btn {
+  margin-top: 6px;
+  justify-content: center;
+  font-size: 16px;
+}
+
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="На главную">
+        <div class="logo" aria-hidden="true">
+          <!-- simple cross -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M11 4h2v6h6v2h-6v6h-2v-6H5v-2h6V4z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          GoMed
+          <small>Медкомиссия для водителей и другие справки</small>
+        </div>
+      </a>
+
+      <nav class="menu" aria-label="Навигация">
+        <a href="#services">Услуги</a>
+        <a href="#how">Как это работает</a>
+        <a href="#pricing">Варианты</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="actions">
+
+<a href="https://t.me/medspravkarusg"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="btn btn-primary tg-btn">
+  ✈️ Оставить заявку в Telegram
+</a>
+
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="badge"><i></i> Официально • Удобно • Без лишней беготни</div>
+          <h1>Медсправка для водительского удостоверения — запись и сопровождение</h1>
+          <p class="lead">
+            Изготавливаем <b>медсправки для водительского удостоверения и других нужд</b> Полностью официально и с гарантией. 
+          Также оформляем другие виды справок — для работы, спорта и учебы.
+          </p>
+
+          <div class="hero-cta">
+<a class="btn btn-primary"
+   href="https://t.me/medspravkarusg"
+   target="_blank"
+   rel="noopener noreferrer">
+  <svg viewBox="0 0 24 24" fill="none">
+    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 11H7v-2h6V7h2v4h2v2h-2v2h-2v-2z" fill="currentColor"/>
+  </svg>
+  Записаться можно у нас в Telegram
+</a>
+
+            <a class="btn" href="#services">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3l9 7-9 7-9-7 9-7zm0 4.2L6.7 10 12 12.8 17.3 10 12 7.2z" fill="currentColor"/>
+                <path d="M3 14l9 7 9-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".9"/>
+              </svg>
+              Смотреть варианты справок
+            </a>
+          </div>
+
+          <div class="mini" aria-label="Преимущества">
+            <span>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 5v5l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Быстрая запись
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 7h16M7 4v6M17 4v6M6 12h12v8H6v-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Удобное время
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 21s-7-4.4-7-11a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 6.6-7 11-7 11z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Официально
+            </span>
+          </div>
+
+          <p class="help">
+            * Мы продаём «готовые документы». Мы проходим процедуру законно: запись, консультация, изготовление, выдача.
+          </p>
+        </div>
+<aside class="hero-card tg-card">
+  <h3>Записаться можно в Telegram</h3>
+
+  <p class="tg-desc">
+    Самый быстрый способ записи — написать нам в Telegram.
+    Мы ответим, подскажем по документам и подберём удобное время.
+  </p>
+
+  <div class="tg-box">
+    <div class="tg-item">
+      <span class="tg-label">Telegram-юзер:</span>
+      <a href="https://t.me/medspravkarusg" target="_blank" class="tg-link">
+        @medspravkarusg
+      </a>
+    </div>
+
+    <div class="tg-item">
+      <span class="tg-label">Telegram-группа:</span>
+<a href="https://t.me/kupitmedspravkuru" target="_blank" class="tg-link">
+  t.me/kupitmedspravkuru
+</a>
+
+    </div>
+  </div>
+
+  <a href="https://t.me/USERNAME" target="_blank" class="btn btn-primary tg-btn">
+    ✈️ Написать в Telegram
+  </a>
+
+  <p class="help">
+    Отвечаем ежедневно. Консультация бесплатная.
+  </p>
+</aside>
+
+
+
+
+      <!-- Decorative wave -->
+      <svg class="wave" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,120 C240,180 420,40 720,110 C980,170 1160,80 1440,130 L1440,180 L0,180 Z"
+              fill="rgba(14,165,255,.14)"></path>
+        <path d="M0,130 C260,190 460,60 720,120 C980,180 1160,100 1440,140 L1440,180 L0,180 Z"
+              fill="rgba(37,99,235,.10)"></path>
+      </svg>
+    </section>
+
+    <section id="services">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Услуги</h2>
+            <p class="sub">Выберите, что нужно: водительская медкомиссия и другие популярные виды справок.</p>
+          </div>
+          <a class="btn" href="#pricing">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M7 17 17 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Посмотреть варианты
+          </a>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M7 3h10v4H7V3z" fill="currentColor" opacity=".20"/>
+              </svg>
+            </div>
+            <h3>Медсправка для водителей</h3>
+            <p>Изготовление медсправки и выдаем в течении 5-ти рабочих дней</p>
+          </article>
+
+          <article class="card">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3>Продление / переоформление</h3>
+            <p>Продление/переоформление медсправки занимает до 3-ёх рабочих дней</p>
+          </article>
+
+          <article class="card">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7 7h10v10H7V7z" stroke="currentColor" stroke-width="2"/>
+                <path d="M9 3h6v4H9V3z" fill="currentColor" opacity=".20"/>
+              </svg>
+            </div>
+            <h3>Справка для работы</h3>
+            <p>Медсправка для работы занимает до 3-ёх рабочих дней</p>
+          </article>
+
+          <article class="card">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 12c3 0 3-6 6-6s3 6 6 6 3-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4 12c3 0 3 6 6 6s3-6 6-6 3 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+              </svg>
+            </div>
+            <h3>Справка в бассейн / спорт</h3>
+            <p>Медсправка в бассейн / спорт занимает до 4-ёх рабочих дней</p>
+          </article>
+
+          <article class="card">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7 4h10v16H7V4z" stroke="currentColor" stroke-width="2"/>
+                <path d="M9 7h6M9 11h6M9 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Справка для учебы</h3>
+            <p>Изготавливаем до 5-ти рабочих дней</p>
+          </article>
+
+          <article class="card">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3l8 4v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="2"/>
+                <path d="M9 12l2 2 4-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Консультация “что и где”</h3>
+            <p>Аблсолютно бесплатна - для этого свяжитесь с нашим менеджером в телеграмм</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Как это работает</h2>
+            <p class="sub">Простой процесс: вы оставляете заявку менеджеру в Telegram — мы вас концультируем — сбор нужных документов для изготовлениея медсправки - изготовление - выдача медсправки</p>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="num">1</div>
+            <h4>Заявка</h4>
+            <p>Пишите менеджеру в Telegram и выбираете тип справки. Мы уточняем детали (город, дата, особенности).</p>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <h4>Изготовление</h4>
+            <p>Изготавливаем медсправку, ставим нужные печати, регистрация в базе данных.</p>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <h4>Выдача</h4>
+            <p>Вы выбираете любой удобный вариант получения медсправки, курьер/самовывоз/отделение почты</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Варианты обслуживания</h2>
+            <p class="sub">Три формата — выберите по уровню помощи. Цены и состав могут отличаться по городу и клинике.</p>
+          </div>
+        </div>
+
+        <div class="pricing">
+          <div class="price">
+            <h3>Базовый</h3>
+            <p class="desc">Для тех, кто не спешит по времени.</p>
+            <ul class="list">
+              <li>Консультация</li>
+              <li>Сбор документов</li>
+              <li>Выдача медсправки</li>
+              
+            </ul>
+            <p class="note">Срок изготовления до 5-ти рабочих дней</p>
+          </div>
+
+          <div class="price popular">
+            <div class="tag">Популярно</div>
+            <h3>Стандарт</h3>
+            <p class="desc">Оптимально: скорость изготовления больше чем в варианте «базовый».</p>
+            <ul class="list">
+              <li>Консультация</li>
+              <li>Сбор документов</li>
+              <li>Выдача медсправки</li>
+            </ul>
+            <p class="note">Самый частый выбор для водительской медкомиссии. Сроки изготовления до 3-ёх рабочих дней</p>
+          </div>
+
+          <div class="price">
+            <h3>Скорость</h3>
+            <p class="desc">Для тех кто не хочет ожидать</p>
+            <ul class="list">
+              <li>Консультация</li>
+              <li>Сбор документов</li>
+              <li>Выдача медсправки</li>
+
+            </ul>
+            <p class="note">Удобно, если ограничено время или сложный график. Сроки изготовления до 2-х рабочих дней</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>FAQ — частые вопросы</h2>
+            <p class="sub">Коротко и по делу. Здесь можно заменить тексты под ваши требования.</p>
+          </div>
+        </div>
+
+        <div class="faq">
+          <div>
+            <details open>
+              <summary>Вы делаете “готовую справку” без прохождения врачей?</summary>
+              <p>Да. Мы работаем легально: запись, консультация, изготовление, выдача. Но врачи ставят лично печати, то есть медсправка полностью легальна.</p>
+            </details>
+
+            <details>
+              <summary>Сколько времени занимает изготовление медсправки?</summary>
+              <p>Зависит от клиники, очередей и требований. Наша задача — сделать все печати, добавить в базу данных и отправить клиенту.</p>
+            </details>
+
+            <details>
+              <summary>Какие документы обычно нужны?</summary>
+              <p>Часто требуются паспорт/ID и дополнительные данные по запросу клиники. Точный список уточняет менеджер в Telegram.</p>
+            </details>
+
+            <details>
+              <summary>Можно ли оформить справку для работы/спорта/учебы?</summary>
+              <p>Да, мы изготавливаем самые распространённые виды справок. Выберите вариант с менеджером в Telegram.</p>
+            </details>
+          </div>
+
+          <aside class="aside">
+            <h3>Почему это удобно</h3>
+            <p>Мы снимаем “хаос”: где записаться, куда идти, что взять. Вы экономите время и нервы.</p>
+
+            <div class="pill">Регистрация в базе</div>
+            <div class="pill">Сбор печатей</div>
+            <div class="pill">Напоминания</div>
+            <div class="pill">Поддержка</div>
+
+            <div style="margin-top: 14px;">
+    <a class="btn btn-primary"
+   href="https://t.me/medspravkarusg"
+   target="_blank"
+   rel="noopener noreferrer">
+                  <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 11H7v-2h6V7h2v4h2v2h-2v2h-2v-2z" fill="currentColor"/>
+                </svg>
+                Записаться
+              </a>
+            </div>
+
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap foot">
+        <div>
+          <div class="brand" style="gap:12px;">
+            <div class="logo" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M11 4h2v6h6v2h-6v6h-2v-6H5v-2h6V4z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div>
+              GoMed
+              <small class="muted">Запись и сопровождение прохождения медкомиссии</small>
+            </div>
+          </div>
+          <p class="muted" style="margin: 10px 0 0;">
+            © <span id="year"></span> MedDrive. Все права защищены.
+            <br/>Информация на странице носит справочный характер.
+          </p>
+        </div>
+
+        <div class="links">
+          <a href="#services">Услуги</a>
+          <a href="#how">Как это работает</a>
+          <a href="#pricing">Варианты</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://t.me/medspravkarusg">Контакты</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Автогод
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
